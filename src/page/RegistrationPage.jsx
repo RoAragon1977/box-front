@@ -57,44 +57,69 @@ const RegistrationPage = () => {
         }, 400);
       }}
     >
-      <Form>
-        <div className="flex flex-col justify-center w-2/4 bg-slate-400">
+      <Form
+        className="flex justify-center pt-5 bg-cover bg-center h-screen"
+        style={{
+          backgroundImage: `url('../src/assets/fondos-para-registro.jpg')`,
+        }}
+      >
+        <div className="flex flex-col w-2/4 bg-transparent ">
           <div className="p-5 flex flex-col">
-            <label htmlFor="nombre">Nombre</label>
+            <label htmlFor="nombre" className="text-gray-400 text-sm">
+              Nombre
+            </label>
             <Field
               name="nombre"
               type="text"
-              className="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearnce-none dark:focus:border-blue-500 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
             />
-            <ErrorMessage name="nombre" className="text-red-500 text-sm" />
+            <ErrorMessage
+              name="nombre"
+              component="div"
+              className="text-red-500 text-sm"
+            />
           </div>
 
           <div className="p-5 flex flex-col">
-            <label htmlFor="apellido">Apellido</label>
+            <label htmlFor="apellido" className="text-gray-400 text-sm">
+              Apellido
+            </label>
             <Field
               name="apellido"
               type="text"
-              className="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearnce-none dark:focus:border-blue-500 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
             />
-            <ErrorMessage name="apellido" />
+            <ErrorMessage
+              name="apellido"
+              component="div"
+              className="text-red-500"
+            />
           </div>
 
           <div className="p-5 flex flex-col">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" className="text-gray-400 text-sm">
+              Email
+            </label>
             <Field
               name="email"
               type="email"
               autoComplete="off"
-              className="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearnce-none dark:focus:border-blue-500 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
             />
-            <ErrorMessage name="email" />
+            <ErrorMessage
+              name="email"
+              component="div"
+              className="text-red-500 text-sm"
+            />
           </div>
 
           <div className="p-5 flex flex-col">
-            <label htmlFor="photoUrl">Agrega tu foto de perfil</label>
+            <label htmlFor="photoUrl" className="text-gray-400 text-sm">
+              Agrega tu foto de perfil
+            </label>
             <Field
               name="photoUrl"
-              className="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearnce-none dark:focus:border-blue-500 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
             >
               {({ field, form }) => (
                 <input
@@ -109,28 +134,44 @@ const RegistrationPage = () => {
                 />
               )}
             </Field>
-            <ErrorMessage name="photoUrl" />
+            <ErrorMessage
+              name="photoUrl"
+              component="div"
+              className="text-red-500 text-sm"
+            />
           </div>
 
           <div className="p-5 flex flex-col">
-            <label htmlFor="password">Contraseña</label>
+            <label htmlFor="password" className="text-gray-400 text-sm">
+              Contraseña
+            </label>
             <Field
               name="password"
               type="password"
               autoComplete="new-password"
-              className="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearnce-none dark:focus:border-blue-500 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
             />
-            <ErrorMessage name="password" />
+            <ErrorMessage
+              name="password"
+              component="div"
+              className="text-red-500 text-sm"
+            />
           </div>
 
           <div className="p-5 flex flex-col">
-            <label htmlFor="repeatPassword">Repetir contraseña</label>
+            <label htmlFor="repeatPassword" className="text-gray-400 text-sm">
+              Repetir contraseña
+            </label>
             <Field
               name="repeatPassword"
               type="password"
-              className="block w-72 py-2.3 px-0 text-sm bg-transparent border-0 border-b-2 border-gray-300 appearnce-none dark:focus:border-blue-500 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
             />
-            <ErrorMessage name="repeatPassword" />
+            <ErrorMessage
+              name="repeatPassword"
+              component="div"
+              className="text-red-500 text-sm"
+            />
           </div>
         </div>
       </Form>
