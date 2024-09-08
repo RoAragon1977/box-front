@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import { CreateUser } from "../service/user_service";
 
 const RegistrationPage = () => {
+  const [register, setRegister] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <Formik
       initialValues={{
@@ -12,6 +17,7 @@ const RegistrationPage = () => {
         email: "",
         photoUrl: "",
         password: "",
+        repeatPassword: "",
       }}
       validationSchema={Yup.object({
         nombre: Yup.string()
@@ -26,14 +32,6 @@ const RegistrationPage = () => {
           .email("Dirección de correo invalida")
           .required("Campo obligatorio"),
 
-        photoUrl: Yup.mixed().test(
-          "fileFormat",
-          "Formato de imagen no soportado",
-          (value) =>
-            value &&
-            ["image/jpeg", "image/png", "image/gif"].includes(value.type)
-        ),
-
         password: Yup.string()
           .min(8, "La contraseña debe tener como mínimo 8 caracteres")
           .matches(
@@ -44,34 +42,48 @@ const RegistrationPage = () => {
           .required("El campo es obligatorio"),
       })}
       onSubmit={(values, { setSubmitting }) => {
+        if (values.password !== values.repeatPassword) {
+          console.log("Las contraseñas no coinciden");
+          setSubmitting(false);
+          return;
+        }
         CreateUser({
           nombre: values.nombre,
           apellido: values.apellido,
           email: values.email,
           password: values.password,
-          photoUrl: values.photoUrl,
-        });
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+        })
+          .then((Response) => {
+            setRegister(true);
+            console.log("Usuario creado con exito");
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log("Error al crear el usuario", error);
+          })
+          .finally(() => {
+            setSubmitting(false);
+            setTimeout(() => {
+              setRegister(false);
+            }, 1000);
+          });
       }}
     >
       <Form
-        className="flex justify-center pt-5 bg-cover bg-center h-screen"
+        className="flex justify-center p-5 bg-cover bg-center h-screen"
         style={{
-          backgroundImage: `url('../src/assets/fondos-para-registro.jpg')`,
+          backgroundImage: `url('../src/assets/azul.png')`,
         }}
       >
-        <div className="flex flex-col w-2/4 bg-transparent ">
-          <div className="p-5 flex flex-col">
+        <div className="flex flex-col justify-center items-center w-1/4 bg-transparent">
+          <div className="flex flex-col">
             <label htmlFor="nombre" className="text-gray-400 text-sm">
               Nombre
             </label>
             <Field
               name="nombre"
               type="text"
-              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-orange-500 appearnce-none dark:focus:border-green-500 focus:outline-none"
             />
             <ErrorMessage
               name="nombre"
@@ -87,7 +99,7 @@ const RegistrationPage = () => {
             <Field
               name="apellido"
               type="text"
-              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-orange-500 appearnce-none dark:focus:border-green-500 focus:outline-none"
             />
             <ErrorMessage
               name="apellido"
@@ -104,38 +116,10 @@ const RegistrationPage = () => {
               name="email"
               type="email"
               autoComplete="off"
-              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-orange-500 appearnce-none dark:focus:border-green-500 focus:outline-none"
             />
             <ErrorMessage
               name="email"
-              component="div"
-              className="text-red-500 text-sm"
-            />
-          </div>
-
-          <div className="p-5 flex flex-col">
-            <label htmlFor="photoUrl" className="text-gray-400 text-sm">
-              Agrega tu foto de perfil
-            </label>
-            <Field
-              name="photoUrl"
-              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
-            >
-              {({ field, form }) => (
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(event) => {
-                    form.setFieldValue(
-                      "photoUrl",
-                      event.currentTarget.files[0]
-                    );
-                  }}
-                />
-              )}
-            </Field>
-            <ErrorMessage
-              name="photoUrl"
               component="div"
               className="text-red-500 text-sm"
             />
@@ -149,7 +133,7 @@ const RegistrationPage = () => {
               name="password"
               type="password"
               autoComplete="new-password"
-              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-orange-500 appearnce-none dark:focus:border-green-500 focus:outline-none"
             />
             <ErrorMessage
               name="password"
@@ -165,13 +149,21 @@ const RegistrationPage = () => {
             <Field
               name="repeatPassword"
               type="password"
-              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-green-500 appearnce-none dark:focus:border-blue-900 focus:outline-none"
+              className="block w-72 py-2.3 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-orange-500 appearnce-none dark:focus:border-green-500 focus:outline-none"
             />
             <ErrorMessage
               name="repeatPassword"
               component="div"
               className="text-red-500 text-sm"
             />
+          </div>
+          <div className="p-5 flex flex-col items-center">
+            <button
+              type="submit"
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Enviar
+            </button>
           </div>
         </div>
       </Form>
